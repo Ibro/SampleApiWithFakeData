@@ -9,11 +9,16 @@ namespace SampleApiWithFakeData.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private static IEnumerable<int> _numbers = Enumerable.Range(1, 30000);
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
+        public IEnumerable<int> Get(int pageIndex, int pageSize)
+        {                      
+            var filtered = _numbers
+                        .Skip((pageIndex - 1) * pageSize)
+                        .Take(pageSize);
+
+            return filtered;
         }
 
         // GET api/values/5
